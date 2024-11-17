@@ -12,7 +12,7 @@ interface FilterBarProps {
   setSort: (value: string) => void;
 }
 interface User {
-  _id: string;
+  id: string;
   Instructor_Name: string;
   email: string;
   role: string;
@@ -31,7 +31,7 @@ export default function FilterBar({
   const [user, setUser] = useState<User[]>([]);
   useEffect(() => {
     const getUser = () => {
-      fetch("/api/getInstructor")
+      fetch("/api/instructor")
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
@@ -44,7 +44,7 @@ export default function FilterBar({
   return (
     <div
       id="filter"
-      className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 py-4 w-full"
+      className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4  w-full"
     >
       {/* Instructor Filter */}
       <div className="flex flex-col space-y-2">
@@ -59,7 +59,7 @@ export default function FilterBar({
         >
           <option value="">All</option>
           {user.map((user) => (
-            <option key={user._id} value={user._id}>
+            <option key={user.id} value={user.id}>
               {user.Instructor_Name}
             </option>
           ))}

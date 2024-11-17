@@ -1,20 +1,39 @@
-# Learning_Management_System
+## Learning Management System
 
-## Getting Started
+การเริ่มต้นใช้งาน
+ทำตามขั้นตอนเหล่านี้เพื่อเซ็ตอัพและรันโปรเจกต์ในเครื่องของคุณ
 
-1.docker-compose up -d
-รัน image postgresql
+1. Clone Repository
+   -> git clone https://github.com/nut2567/Learning_Management_System_PostgreSql
 
-# รัน PostgreSQL
+2. รัน PostgreSQL ด้วย Docker
+   ให้แน่ใจว่า Docker เปิดใช้งานในเครื่องของคุณก่อนที่จะทำขั้นตอนนี้
+   -> docker-compose up -d
+   คำสั่งนี้จะทำการเริ่มต้น PostgreSQL container บนเครื่องของคุณ ตรวจสอบว่า Docker Desktop หรือเครื่องมือที่ใช้ในการรัน Docker ทำงานอยู่
 
-2.มีไฟล์ env แล้ว ถ้าไม่มีให้เพิ่ม DATABASE_URL="postgresql://admin:admin@localhost:5432/mydb"
+3. # รัน PostgreSQL
 
-3.npx prisma migrate dev --name init
-(npx peisma generate แบบไม่ migrate)
+   ตั้งค่าฐานข้อมูล
+   หากคุณยังไม่มีไฟล์ .env ให้สร้างไฟล์ .env และเพิ่มข้อมูลนี้:
+   -> DATABASE_URL="postgresql://admin:admin@localhost:5432/mydb"
 
-4.npm run seed เพิ่มข้อมูล user เบื้องต้น ข้อมูลตามไฟล lib/userinfo.ts
+4. ใช้ Prisma Migrations
+   รันคำสั่ง Prisma เพื่อสร้าง schema ของฐานข้อมูล:
+   -> npx prisma migrate dev --name init
+   หากคุณไม่ต้องการรัน migration แต่แค่ต้องการสร้าง Prisma models ให้ใช้คำสั่งนี้แทน:
+   -> npx peisma generate
+   (แบบไม่ migrate)
 
-5.run the development server:
+5. Seed ข้อมูลเบื้องต้น
+   เพิ่มข้อมูลเบื้องต้นลงในฐานข้อมูลโดยใช้คำสั่งต่อไปนี้:
+   -> npm run user_seed
+   เพิ่มข้อมูล user เบื้องต้น ข้อมูลตามไฟล lib/userinfo.ts
+   -> npm run courses_seed
+   เพิ่มข้อมูล courses เบื้องต้น ข้อมูลตามไฟล lib/courses_seed.ts
+   ตรวจสอบฐานข้อมูลถ้าไม่ติดอะไรจะได้ข้อมูลเพื่อใช้กับหน้าเว็บแล้ว
+
+6. รัน Development Server
+   รันเซิร์ฟเวอร์สำหรับการพัฒนาโดยใช้คำสั่งใดคำสั่งหนึ่งด้านล่างนี้:
 
 ```bash
 npm run dev
@@ -26,6 +45,27 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:4000](http://localhost:4000) with your browser to see the result.
+7. เปิดเว็บแอป
+   เปิดเว็บแอปที่ [http://localhost:4000](http://localhost:4000) บนเบราว์เซอร์ของคุณเพื่อดูผลลัพธ์
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+## ภาพรวมของโปรเจกต์และเหตุผลในการออกแบบ
+
+โปรเจกต์นี้เป็นระบบการจัดการการเรียนรู้ (Learning Management System หรือ LMS) ที่ใช้ฐานข้อมูล PostgreSQL โดยมีการใช้ Prisma สำหรับการจัดการฐานข้อมูล และสามารถปรับใช้ได้ง่ายสำหรับการพัฒนาเพิ่มเติมในอนาคต
+
+## เหตุผลในการออกแบบ
+
+การใช้ Docker: การใช้ Docker ทำให้สามารถตั้งค่าสภาพแวดล้อมในการพัฒนาได้ง่ายและรวดเร็ว สามารถทำงานได้ในทุกเครื่องที่รองรับ Docker
+การใช้ Prisma: Prisma ถูกเลือกเพื่อจัดการการเชื่อมต่อกับฐานข้อมูล PostgreSQL เนื่องจากเป็นเครื่องมือที่ช่วยให้การทำงานกับฐานข้อมูลเป็นไปได้อย่างราบรื่นและมีประสิทธิภาพ
+ระบบการ Seed ข้อมูล: มีระบบ Seed ข้อมูลเพื่อให้สามารถเริ่มต้นการใช้งานโปรเจกต์ได้ทันทีหลังจากติดตั้ง
+
+## ข้อสมมติฐานที่ทำไว้และส่วนที่ต้องการปรับปรุงในอนาคต
+
+ข้อสมมติฐานที่ทำไว้
+การตั้งค่า Docker และฐานข้อมูล PostgreSQL จะทำงานได้อย่างราบรื่นในทุกเครื่องที่รองรับ Docker
+ข้อมูลที่เก็บในฐานข้อมูลจะมีการจัดการอย่างมีระเบียบ และสามารถขยายได้ในอนาคต
+ส่วนที่ต้องการปรับปรุงในอนาคต
+การตรวจสอบความถูกต้องของข้อมูล (Validation): ระบบยังไม่มีการตรวจสอบข้อมูลที่กรอกเข้ามาอย่างละเอียด เช่น การตรวจสอบรูปแบบอีเมล หรือรหัสผ่านที่ปลอดภัย ซึ่งสามารถเพิ่มในอนาคต
+ฟีเจอร์การจัดการผู้ใช้: อาจพิจารณาเพิ่มฟีเจอร์สำหรับการจัดการผู้ใช้แบบ admin เช่น การจัดการข้อมูลคอร์ส การสร้าง/ลบคอร์ส หรือการจัดการผู้ใช้
+การเพิ่มประสิทธิภาพ: ส่วนที่ใช้ Prisma ในบางคำสั่งอาจจะสามารถปรับปรุงให้ทำงานได้รวดเร็วขึ้น เช่น การทำ query ที่ซับซ้อนให้มีประสิทธิภาพมากขึ้น

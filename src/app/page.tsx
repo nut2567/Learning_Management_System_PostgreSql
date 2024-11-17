@@ -26,9 +26,9 @@ async function getProduct(
 
     // ทำการเรียก API
     const resp = await axios.get(`/api/getcourse`, { params });
-
+    console.log(resp);
     // ตรวจสอบและส่งข้อมูลที่ได้รับ
-    if (resp.data && resp.data.product) {
+    if (resp.data && resp.data.courses) {
       return resp.data; // Return data from response
     } else {
       return { product: [], total: 0 }; // Return empty data if no products
@@ -58,7 +58,7 @@ export default function Home() {
       const limit = 9;
       const filters = { Instructor, Status, Level, Sort };
       const response = await getProduct(page, limit, filters);
-      setProduct(response.product || []);
+      setProduct(response.courses || []);
       setTotalPages(Math.ceil(response.total / limit));
     } catch (err) {
       console.error(err);

@@ -6,7 +6,8 @@
     "dev": "next dev -p 4000",
     "build": "next build",
     "start": "next start",
-    "seed": "tsx prisma/user_seed.ts"
+    "user_seed": "tsx prisma/user_seed.ts",
+    "courses_seed": "tsx prisma/courses_seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
