@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int      @id @default(autoincrement()) // ใช้ Auto-increment สำหรับ PostgreSQL
+  Instructor_Name String   @unique
+  createdAt       DateTime @default(now()) // ค่าเริ่มต้นเป็นวัน-เวลา ปัจจุบัน
+  age             Float
+  email           String
+  image           String
+  phone           String
+  Course          Course[]
+}
+
+model Course {
+  id              Int      @id @default(autoincrement())
+  courseTitle     String
+  courseDuration  Int
+  level           String
+  enrollmentCount Int
+  createdAt       DateTime @default(now())
+  status          String
+  image           String?
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id]) // ความสัมพันธ์ Many-to-One กับ User
+}
