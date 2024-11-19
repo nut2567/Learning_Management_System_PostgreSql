@@ -1,14 +1,14 @@
 import axios from "axios";
-import FilterBar from "@/app//layouts/FilterPage";
-const getInstructors = async () => {
+import FilterBar from "@/app/layouts/FilterPage";
+export const GetInstructors = async () => {
   try {
     const baseURL =
       process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
-    const resp = await axios.get(`${baseURL}/api/instructor`);
-    console.log(resp.data);
+    const { data } = await axios.get(`${baseURL}/api/instructor`);
+    console.log(data);
     // ตรวจสอบและส่งข้อมูล
-    if (resp.data && resp.data.userList) {
-      return resp.data.userList; // Return only necessary data
+    if (data && data.userList) {
+      return data.userList; // Return only necessary data
     }
     return [];
   } catch (err) {
@@ -18,7 +18,7 @@ const getInstructors = async () => {
 };
 
 const CoursesSSR = async () => {
-  const instructors = await getInstructors();
+  const instructors = await GetInstructors();
   return <FilterBar instructors={instructors} />;
 };
 

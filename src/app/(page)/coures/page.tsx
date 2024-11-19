@@ -1,6 +1,5 @@
 import axios from "axios";
-import FilterBar from "./FilterBar";
-import ProductList from "./ProductList";
+import ProductList, { Courses } from "@/app/components/ProductList";
 
 const fetchProducts = async (filters: any) => {
   const baseURL =
@@ -18,7 +17,6 @@ export default async function Home() {
   return (
     <div className="min-h-screen p-8 bg-gray-100">
       <h1 className="text-3xl font-bold mb-4">Available Courses</h1>
-      {/* <FilterBar /> */}
       <ProductList products={data.courses || []} />
     </div>
   );

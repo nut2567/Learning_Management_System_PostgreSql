@@ -5,31 +5,38 @@ import WrapLoading from "@/app/layouts/WrapLoadind";
 import FilterBar, { User } from "@/app/components/FilterBar";
 import ProductList, { Courses } from "@/app/components/ProductList";
 import ReactPaginate from "react-paginate";
-import GetProduct from "@/app/utils/getproduct";
+import { GetProduct } from "@/app/utils/getproduct";
 
-export default function Home({ initialProducts }: { initialProducts: any }) {
-  const [product, setProduct] = useState<Courses[]>([]); // ใช้ useState เพื่อจัดเก็บข้อมูล user
+export default function Home({
+  initialProducts,
+  initialinstructor,
+}: {
+  initialProducts: any;
+  initialinstructor: any;
+}) {
+  const [product, setProduct] = useState<Courses[]>(initialProducts.courses); // ใช้ useState เพื่อจัดเก็บข้อมูล user
+  const [user, setUser] = useState<User[]>(initialinstructor);
   const [isLoading, setIsLoading] = useState(false); // Tracks loading state
   const [error, setError] = useState(""); // Tracks errors if they occur
   const [Instructor, setInstructor] = useState("");
   const [Status, setStatus] = useState("");
   const [Level, setLevel] = useState("");
   const [Sort, setSort] = useState("");
-  const [user, setUser] = useState<User[]>([]);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
+  const limit = 9;
   const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(initialProducts.total / limit);
 
   const fetchProduct = async (page: number) => {
     page = page == 0 ? 1 : page + 1;
     setIsLoading(true);
     try {
-      const limit = 9;
       const filters = { Instructor, Status, Level, Sort };
       const response = await GetProduct(page, limit, filters);
       setProduct(response.courses || []);
       setTotalPages(Math.ceil(response.total / limit));
+      getUser();
     } catch (err) {
       console.error(err);
       setError("Failed to load product data");
@@ -37,19 +44,14 @@ export default function Home({ initialProducts }: { initialProducts: any }) {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    const getUser = () => {
-      fetch("/api/instructor")
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setUser(data.userList);
-        });
-    };
-
-    getUser();
-  }, []);
+  const getUser = () => {
+    fetch("/api/instructor")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setUser(data.userList);
+      });
+  };
 
   useEffect(() => {
     if (isFirstLoad) {

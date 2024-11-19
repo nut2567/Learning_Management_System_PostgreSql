@@ -1,5 +1,15 @@
 import Home from "@/app/layouts/homepage";
+import ProductList, { Courses } from "@/app/components/ProductList";
+import { GetProduct } from "@/app/utils/getproduct";
+import { GetInstructors } from "@/app/utils/getInstructors";
 
-export default function HomePage() {
-  return <Home initialProducts={[]} />;
+export default async function HomePage() {
+  const initialProducts = await GetProduct();
+  const initialinstructor = await GetInstructors();
+  return (
+    <Home
+      initialProducts={initialProducts}
+      initialinstructor={initialinstructor}
+    />
+  );
 }

@@ -10,17 +10,20 @@ const FilterPage = ({ instructors }: { instructors: User[] }) => {
   const [Sort, setSort] = useState("");
 
   return (
-    <FilterBar
-      Instructor={Instructor}
-      setInstructor={setInstructor}
-      Level={Level}
-      setLevel={setLevel}
-      Status={Status}
-      setStatus={setStatus}
-      Sort={Sort}
-      setSort={setSort}
-      instructors={instructors}
-    />
+    <div className="p-6">
+      <h1 className="text-xl font-bold mb-4">Courses</h1>
+      <FilterBar
+        Instructor={Instructor}
+        setInstructor={setInstructor}
+        Level={Level}
+        setLevel={setLevel}
+        Status={Status}
+        setStatus={setStatus}
+        Sort={Sort}
+        setSort={setSort}
+        instructors={instructors}
+      />
+    </div>
   );
 };
 

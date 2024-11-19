@@ -1,5 +1,5 @@
 import axios from "axios";
-export default async function GetProduct(
+export async function GetProduct(
   page = 1,
   limit = 9,
   filters = { Instructor: "", Status: "", Level: "", Sort: "" }
@@ -17,12 +17,14 @@ export default async function GetProduct(
     if (Level) params.Level = Level;
     if (Sort) params.Sort = Sort;
 
+    const baseURL =
+      process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
+    const { data } = await axios.get(`${baseURL}/api/getcourse`, { params });
     // ทำการเรียก API
-    const resp = await axios.get(`/api/getcourse`, { params });
-    console.log(resp);
+    console.log(data);
     // ตรวจสอบและส่งข้อมูลที่ได้รับ
-    if (resp.data && resp.data.courses) {
-      return resp.data; // Return data from response
+    if (data && data.courses) {
+      return data; // Return data from response
     } else {
       return { product: [], total: 0 }; // Return empty data if no products
     }
