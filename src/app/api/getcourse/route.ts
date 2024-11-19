@@ -40,7 +40,7 @@ export async function GET(request: Request) {
   } else if (Sort === "durationLow") {
     sortOption = { courseDuration: "asc" };
   } else {
-    sortOption = { createdAt: "asc" }; // ไม่มีการจัดเรียง
+    sortOption = { createdAt: "desc" }; // ไม่มีการจัดเรียง
   }
 
 
@@ -71,17 +71,6 @@ export async function GET(request: Request) {
       where: query
     });
 
-    // กรณีที่ไม่มีการจัดเรียง
-    if (sortOption?.createdAt == "asc") {
-
-      // สุ่มผลลัพธ์ก่อนส่งกลับ
-      const shuffledCourses = courses.sort(() => Math.random() - 0.5);
-
-      return NextResponse.json(
-        { message: "Success get List", courses: shuffledCourses, total },
-        { status: 200 }
-      );
-    }
 
     // query SELECT "id", "courseTitle", "courseDuration", "level", "status" FROM "Course" WHERE "status" = 'Open' AND "level" = 'Advanced' ORDER BY "courseTitle" ASC LIMIT 10 OFFSET 0
 

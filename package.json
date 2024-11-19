@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "user_seed": "tsx prisma/user_seed.ts",
-    "courses_seed": "tsx prisma/courses_seed.ts"
+    "courses_seed": "tsx prisma/courses_seed.ts",
+    "test": "jest"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
@@ -21,9 +22,13 @@
     "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
     "@types/node": "^20.17.6",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "jest": "^29.7.0",
     "postcss": "^8",
     "prisma": "^5.22.0",
     "tailwindcss": "^3.4.1",
