@@ -8,7 +8,7 @@ export const GetInstructors = async () => {
     console.log(data);
     // ตรวจสอบและส่งข้อมูล
     if (data && data.userList) {
-      return data.userList; // Return only necessary data
+      return data.userList;
     }
     return [];
   } catch (err) {

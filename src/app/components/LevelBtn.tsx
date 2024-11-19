@@ -1,3 +1,4 @@
+import React from "react";
 export default function BtnLevel({ Level }: { Level: string }) {
   return (
     <button

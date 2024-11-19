@@ -1,4 +1,6 @@
 import { GiSettingsKnobs } from "react-icons/gi";
+
+import React from "react";
 interface FilterBarProps {
   Instructor: string;
   setInstructor: (value: string) => void;

@@ -8,6 +8,7 @@ import ReactPaginate from "react-paginate";
 import { GetProduct } from "@/app/utils/getproduct";
 import { GetInstructors } from "@/app/utils/getInstructors";
 
+import React from "react";
 export default function Home({
   initialProducts,
   initialinstructor,
@@ -97,17 +98,6 @@ export default function Home({
           <p>{error}</p> // แสดง error หากมี
         ) : isLoading ? (
           <WrapLoading /> // แสดง loading หากกำลังโหลดข้อมูล
-        ) : product.length === 0 ? (
-          <div className="mt-32  smb:px-4 sm:px-12 lg:px-20 xl:px-28 2xl:px-32 w-full text-center items-center flex-col flex font-semibold">
-            <Image
-              src="/file-search.svg"
-              alt="SVG Icon"
-              width={40}
-              height={40}
-            />
-            <h2 className="text-[20px] mt-4">No result</h2>
-            <p className="text-[14px]">Try to remove filters and sorting</p>
-          </div> // แสดงข้อความเมื่อไม่มีข้อมูล
         ) : (
           <div className="w-full">
             <ProductList products={product} />

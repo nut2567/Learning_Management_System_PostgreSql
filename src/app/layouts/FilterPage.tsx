@@ -3,6 +3,7 @@
 import { useState } from "react";
 import FilterBar, { User } from "@/app/components/FilterBar";
 
+import React from "react";
 const FilterPage = ({ instructors }: { instructors: User[] }) => {
   const [Instructor, setInstructor] = useState("");
   const [Level, setLevel] = useState("");

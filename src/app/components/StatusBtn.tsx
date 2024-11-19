@@ -1,3 +1,4 @@
+import React from "react";
 export default function BtnStatus({ Status }: { Status: string }) {
   return (
     <button
