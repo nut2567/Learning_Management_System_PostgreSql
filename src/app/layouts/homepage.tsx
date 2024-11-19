@@ -6,6 +6,7 @@ import FilterBar, { User } from "@/app/components/FilterBar";
 import ProductList, { Courses } from "@/app/components/ProductList";
 import ReactPaginate from "react-paginate";
 import { GetProduct } from "@/app/utils/getproduct";
+import { GetInstructors } from "@/app/utils/getInstructors";
 
 export default function Home({
   initialProducts,
@@ -36,21 +37,13 @@ export default function Home({
       const response = await GetProduct(page, limit, filters);
       setProduct(response.courses || []);
       setTotalPages(Math.ceil(response.total / limit));
-      getUser();
+      setUser(await GetInstructors());
     } catch (err) {
       console.error(err);
       setError("Failed to load product data");
     } finally {
       setIsLoading(false);
     }
-  };
-  const getUser = () => {
-    fetch("/api/instructor")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setUser(data.userList);
-      });
   };
 
   useEffect(() => {

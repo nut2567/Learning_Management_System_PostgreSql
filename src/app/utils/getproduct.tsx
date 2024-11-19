@@ -1,4 +1,5 @@
 import axios from "axios";
+import ProductList, { Courses } from "@/app/components/ProductList";
 export async function GetProduct(
   page = 1,
   limit = 9,
@@ -32,4 +33,15 @@ export async function GetProduct(
     console.error("Failed to fetch products:", error);
     return { product: [], total: 0 };
   }
+}
+
+export default async function CoursesSSR() {
+  const data = await GetProduct(); // ดึงข้อมูลจาก API
+
+  return (
+    <div className="min-h-screen p-8 bg-gray-100">
+      <h1 className="text-3xl font-bold mb-4">Available Courses</h1>
+      <ProductList products={data.courses || []} />
+    </div>
+  );
 }

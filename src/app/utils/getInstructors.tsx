@@ -17,9 +17,9 @@ export const GetInstructors = async () => {
   }
 };
 
-const CoursesSSR = async () => {
+const InstructorsSSR = async () => {
   const instructors = await GetInstructors();
   return <FilterBar instructors={instructors} />;
 };
 
-export default CoursesSSR;
+export default InstructorsSSR;

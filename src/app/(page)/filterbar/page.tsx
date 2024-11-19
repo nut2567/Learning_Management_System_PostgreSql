@@ -1,8 +1,7 @@
-import axios from "axios";
-import CoursesSSR from "@/app/utils/getInstructors";
+import Instructors from "@/app/utils/getInstructors";
 
 const Home = async () => {
-  return <CoursesSSR />;
+  return <Instructors />;
 };
 
 export default Home;
