@@ -76,6 +76,11 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 npm test
 
+(src/**tests**/components/FilterBar.test.tsx)
+เช็คการทำงานของ FilterBar ในการเลือกตัวเลือก
+(src/**tests**/components/ProductList.test.tsx)
+เช็คการทำงานของ ProductList ว่าสามารถวาดการ์ดของวิชาการสอนได้และมีองประกอบของกล่องการ์ดครบทุกส่วน
+
 # รันในโหมดดูการเปลี่ยนแปลงไฟล์
 
 npm test:watch
