@@ -2,16 +2,56 @@ import axios from "axios";
 import { describe, it, expect, vi } from "vitest";
 import { GetProduct } from "@/app/utils/getproduct";
 import MockAdapter from "axios-mock-adapter";
-import courses from "@lib/courses";
 
 const mockAxios = new MockAdapter(axios);
-const mockProducts = courses;
 
 describe("GetProduct", () => {
   vi.mock("axios");
+  const mockAxiosGet = vi.mocked(axios.get);
 
-  it("should call API with correct parameters", async () => {
-    const mockAxiosGet = vi.mocked(axios.get);
+  it("should call API with correct parameters have filter", async () => {
+    const mockProducts = [
+      {
+        id: 72,
+        courseTitle: "Full-Stack Software Development20",
+        courseDuration: 80,
+        level: "Beginner",
+        enrollmentCount: 33,
+        createdAt: new Date(),
+        status: "Open",
+        image:
+          "https://fastly.picsum.photos/id/60/1920/1200.jpg?hmac=fAMNjl4E_sG_WNUjdU39Kald5QAHQMh-_-TsIbbeDNI",
+        userId: 1,
+        user: {
+          Instructor_Name: "Titan",
+          email: "Titan@gmail.com",
+          createdAt: new Date(),
+          age: 40,
+          image: "/Titan.jpg",
+          phone: "026-755888",
+        },
+      },
+      {
+        id: 71,
+        courseTitle: "Full-Stack Software Development19",
+        courseDuration: 100,
+        level: "Beginner",
+        enrollmentCount: 50,
+        createdAt: new Date(),
+        status: "Open",
+        image:
+          "https://fastly.picsum.photos/id/60/1920/1200.jpg?hmac=fAMNjl4E_sG_WNUjdU39Kald5QAHQMh-_-TsIbbeDNI",
+        userId: 1,
+        user: {
+          Instructor_Name: "Titan",
+          email: "Titan@gmail.com",
+          createdAt: new Date(),
+          age: 40,
+          image: "/Titan.jpg",
+          phone: "026-755888",
+        },
+      },
+    ];
 
     const filters = {
       Instructor: "1",
@@ -22,7 +62,7 @@ describe("GetProduct", () => {
 
     // Mock API response
     mockAxiosGet.mockResolvedValueOnce({
-      data: { courses: mockProducts, total: 2 },
+      data: { courses: mockProducts, total: 72 },
     });
 
     // Call the function
@@ -39,6 +79,73 @@ describe("GetProduct", () => {
           Status: "Open",
           Level: "Beginner",
           Sort: "Recommended",
+        },
+      }
+    );
+
+    // ตรวจสอบผลลัพธ์ที่คืนค่า
+    expect(result).toEqual({ courses: mockProducts, total: 72 });
+  });
+
+  it("should call API with correct parameters no filter", async () => {
+    const mockProducts = [
+      {
+        id: 72,
+        courseTitle: "Full-Stack Software Development20",
+        courseDuration: 80,
+        level: "Advanced",
+        enrollmentCount: 33,
+        createdAt: new Date(),
+        status: "Open",
+        image:
+          "https://fastly.picsum.photos/id/60/1920/1200.jpg?hmac=fAMNjl4E_sG_WNUjdU39Kald5QAHQMh-_-TsIbbeDNI",
+        userId: 6,
+        user: {
+          Instructor_Name: "Titan",
+          email: "Titan@gmail.com",
+          createdAt: new Date(),
+          age: 40,
+          image: "/Titan.jpg",
+          phone: "026-755888",
+        },
+      },
+      {
+        id: 71,
+        courseTitle: "Full-Stack Software Development19",
+        courseDuration: 100,
+        level: "Intermediate",
+        enrollmentCount: 50,
+        createdAt: new Date(),
+        status: "Open",
+        image:
+          "https://fastly.picsum.photos/id/60/1920/1200.jpg?hmac=fAMNjl4E_sG_WNUjdU39Kald5QAHQMh-_-TsIbbeDNI",
+        userId: 6,
+        user: {
+          Instructor_Name: "Titan",
+          email: "Titan@gmail.com",
+          createdAt: new Date(),
+          age: 40,
+          image: "/Titan.jpg",
+          phone: "026-755888",
+        },
+      },
+    ];
+
+    // Mock API response
+    mockAxiosGet.mockResolvedValueOnce({
+      data: { courses: mockProducts, total: 2 },
+    });
+
+    // Call the function
+    const result = await GetProduct(1, 9);
+
+    // ตรวจสอบว่า axios.get ถูกเรียกด้วย parameters ที่ถูกต้อง
+    expect(mockAxiosGet).toHaveBeenCalledWith(
+      "http://localhost:4000/api/getcourse",
+      {
+        params: {
+          page: 1,
+          limit: 9,
         },
       }
     );

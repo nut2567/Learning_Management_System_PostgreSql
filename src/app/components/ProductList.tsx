@@ -51,6 +51,7 @@ export default function ProductList({ products }: ProductListProps) {
             <div
               className="card bg-white p-4 w-full shadow-xl font-medium"
               key={item.id}
+              id={`card_Courses_${item.id}`}
             >
               <figure>
                 <div className="relative h-[222px] w-[100%]">
