@@ -1,4 +1,5 @@
 import axios from "axios";
+import React from "react";
 import FilterBar from "@/app/layouts/FilterPage";
 export const GetInstructors = async () => {
   try {

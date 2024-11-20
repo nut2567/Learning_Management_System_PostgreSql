@@ -80,6 +80,15 @@ npm test
 เช็คการทำงานของ FilterBar ในการเลือกตัวเลือก
 (src/**tests**/components/ProductList.test.tsx)
 เช็คการทำงานของ ProductList ว่าสามารถวาดการ์ดของวิชาการสอนได้และมีองประกอบของกล่องการ์ดครบทุกส่วน
+(src/**tests**/api/getproduct.test.tsx)
+เช็คการทำงานของ /api/getcourse ว่าสามารถส่งค่า course มาแล้วเรียกใช้งาน ค่า course ได้ ลองส่งตัวกรองแล้วได้ค่าตามที่กรอง
+(src/**tests**/api/getInstructors.test.tsx)
+เช็คการทำงานของ /api/getInstructors ว่าสามารถส่งค่า user มาแล้วเรียกใช้งาน ค่า user ได้
+(src/**tests**/page/page.test.tsx)
+เช็คการทำงานของ /api/getcourse ว่าสามารถส่งค่า course มาแล้วเรียกใช้งาน ค่า course ได้
+และทำงานร่วมกับ components ProductList ว่าสามารถวาดการ์ดของ course ได้และมีองประกอบของกล่องการ์ดครบทุกส่วน
+เมื่อส่งตัวกรองแล้ว components ProductList ได้ค่าตามที่กรอง
+เมื่อจัดเรียงแล้ว components ProductList ได้ค่าเรียงตามที่เลือก
 
 # รันในโหมดดูการเปลี่ยนแปลงไฟล์
 

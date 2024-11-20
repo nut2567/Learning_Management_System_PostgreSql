@@ -1,4 +1,5 @@
 import axios from "axios";
+import React from "react";
 import ProductList, { Courses } from "@/app/components/ProductList";
 export async function GetProduct(
   page = 1,
