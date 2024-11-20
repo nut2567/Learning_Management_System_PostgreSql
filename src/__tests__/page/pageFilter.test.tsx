@@ -8,8 +8,8 @@ import { GetProduct } from "@/app/utils/getproduct";
 vi.mock("axios");
 const mockAxiosGet = vi.mocked(axios.get);
 
-describe("Filter no sort", () => {
-  it("Status", async () => {
+describe("Renders list of products should call API with correct parameters Filter", () => {
+  it("All filter no sort", async () => {
     const mockProducts: Courses[] = [
       {
         id: 71,

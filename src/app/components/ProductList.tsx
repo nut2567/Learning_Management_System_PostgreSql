@@ -47,11 +47,11 @@ export default function ProductList({ products }: ProductListProps) {
         </div> // แสดงข้อความเมื่อไม่มีข้อมูล
       ) : (
         <div className="grid smb:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-12 w-full">
-          {products.map((item) => (
+          {products.map((item, index) => (
             <div
               className="card bg-white p-4 w-full shadow-xl font-medium"
               key={item.id}
-              id={`card_Courses_${item.id}`}
+              id={`card_Courses_${index + 1}`}
             >
               <figure>
                 <div className="relative h-[222px] w-[100%]">

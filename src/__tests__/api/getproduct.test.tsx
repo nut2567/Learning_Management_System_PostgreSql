@@ -185,4 +185,74 @@ describe("GetProduct", () => {
     // Restore console.error
     consoleErrorSpy.mockRestore();
   });
+  it("should handle invalid filter parameters gracefully", async () => {
+    const filters = {
+      Instructor: "invalid-id", // ค่าฟิลเตอร์ที่ไม่ถูกต้อง
+      Status: "InvalidStatus", // สถานะที่ไม่ถูกต้อง
+      Level: "Beginner", // ระดับที่ไม่ถูกต้อง
+      Sort: "Recommended",
+    };
+
+    // Mock API response
+    mockAxiosGet.mockResolvedValueOnce({
+      data: { courses: [], total: 0 },
+    });
+    // Call the function
+    const result = await GetProduct(1, 9, filters);
+
+    // ตรวจสอบว่าโค้ดสามารถจัดการกับฟิลเตอร์ที่ไม่ถูกต้องได้
+    expect(result.courses).toEqual([]);
+    expect(result.total).toBe(0);
+  });
+
+  it("should handle missing course title gracefully", async () => {
+    const mockData = [
+      {
+        id: 1,
+        courseTitle: undefined, // ข้อมูลที่ขาดหายไป
+        courseDuration: 100,
+        level: "Advanced",
+        status: "Open",
+      },
+    ];
+
+    mockAxiosGet.mockResolvedValueOnce({
+      data: { courses: mockData, total: 1 },
+    });
+
+    const result = await GetProduct(1, 9);
+
+    // ตรวจสอบว่าระบบสามารถจัดการกับข้อมูลที่ขาดหายไปได้
+    expect(result.courses[0].courseTitle).toBeUndefined(); // ต้องตรวจสอบอย่างละเอียด
+  });
+
+  it("should handle timeout error gracefully", async () => {
+    // จำลองการเกิด timeout
+    mockAxiosGet.mockRejectedValueOnce(new Error("Request timeout"));
+
+    try {
+      await GetProduct(1, 9);
+    } catch (error) {
+      // ตรวจสอบว่า error timeout ถูกจับอย่างถูกต้อง
+      expect(error).toBe("Request timeout");
+    }
+  });
+  it("should handle large amounts of data", async () => {
+    const mockLargeData = new Array(1000).fill({
+      id: 1,
+      courseTitle: "Course Title",
+      courseDuration: 100,
+      level: "Advanced",
+      status: "Open",
+    });
+
+    mockAxiosGet.mockResolvedValueOnce({
+      data: { courses: mockLargeData, total: 1000 },
+    });
+
+    const result = await GetProduct(1, 9); // ทดสอบกับข้อมูลจำนวนมาก
+
+    expect(result.courses.length).toBe(1000); // ตรวจสอบจำนวนข้อมูลที่ถูกส่งมา
+    expect(result.total).toBe(1000);
+  });
 });
