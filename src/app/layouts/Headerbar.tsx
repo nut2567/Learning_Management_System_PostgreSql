@@ -12,9 +12,10 @@ export default function Layout({}) {
             height={300}
           />
         </div>
-        <div className="flex gap-5">
-          <p>Portfolio</p>
-          <p>Nutthawat Witdumring</p>
+        <div className="flex gap-5 cursor-pointer">
+          <p title={`Portfolio Nutthawat Witdumring`}>
+            Learning_Management_System
+          </p>
         </div>
 
         <div>
