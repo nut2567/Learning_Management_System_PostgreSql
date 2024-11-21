@@ -59,7 +59,6 @@ export default function ProductList({ products }: ProductListProps) {
                     src={item.image}
                     alt={item.courseTitle || "Product Image"}
                     fill
-                    priority
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     style={{ objectFit: "cover" }}
                   />
@@ -81,7 +80,6 @@ export default function ProductList({ products }: ProductListProps) {
                         src={item.user.image}
                         alt={"Instructor_Name Image"}
                         fill
-                        priority
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         style={{ objectFit: "cover" }}
                       />

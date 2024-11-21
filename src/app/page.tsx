@@ -1,5 +1,4 @@
 import Home from "@/app/layouts/homepage";
-import ProductList, { Courses } from "@/app/components/ProductList";
 import { GetProduct } from "@/app/utils/getproduct";
 import { GetInstructors } from "@/app/utils/getInstructors";
 
