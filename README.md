@@ -1,6 +1,7 @@
-## Learning Management System
+# Learning Management System
 
-การเริ่มต้นใช้งาน
+### การเริ่มต้นใช้งาน
+
 ทำตามขั้นตอนเหล่านี้เพื่อเซ็ตอัพและรันโปรเจกต์ในเครื่องของคุณ
 
 1. Clone Repository
@@ -11,7 +12,7 @@
    -> docker-compose up -d
    คำสั่งนี้จะทำการเริ่มต้น PostgreSQL container บนเครื่องของคุณ ตรวจสอบว่า Docker Desktop หรือเครื่องมือที่ใช้ในการรัน Docker ทำงานอยู่
 
-3. # รัน PostgreSQL
+3. รัน PostgreSQL
 
    ตั้งค่าฐานข้อมูล
    หากคุณยังไม่มีไฟล์ .env ให้สร้างไฟล์ .env และเพิ่มข้อมูลนี้:
@@ -71,10 +72,9 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 เช่น การจัดการข้อมูลคอร์ส การสร้าง/ลบคอร์ส หรือการจัดการผู้ใช้ การเขียน unit tests ให้คอบคุมทุกกรณี ที่หน้าเพจสามารถเล่นได้
 การเพิ่มประสิทธิภาพ: ส่วนที่ใช้ Prisma ในบางคำสั่งอาจจะสามารถปรับปรุงให้ทำงานได้รวดเร็วขึ้น เช่น การทำ query ที่ซับซ้อนให้มีประสิทธิภาพมากขึ้น
 
-รันเทส
+# รันเทส
 
-# รันทั้งหมด
-
+รันทั้งหมด
 npm test
 
 (src/**tests**/components/FilterBar.test.tsx)
@@ -98,6 +98,5 @@ npm test
 (src/**tests**/page/pageSort.test.tsx)
 ทดสอบส่วนจัดเรียง
 
-# รันในโหมดดูการเปลี่ยนแปลงไฟล์
-
+รันในโหมดดูการเปลี่ยนแปลงไฟล์
 npm test:watch
