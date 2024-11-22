@@ -58,13 +58,14 @@ describe("FilterBar Component", () => {
     expect(await screen.findByText(/Titan/i)).toBeInTheDocument();
   });
 
-  it("fires setLevel when a level is selected", () => {
+  it("fires setLevel when a level is selected", async () => {
     wrapFilterBar();
 
     const levelSelect = screen.getByLabelText(/Level/i);
     fireEvent.change(levelSelect, { target: { value: "Advanced" } });
 
     expect(mockSetLevel).toHaveBeenCalledWith("Advanced");
+    expect(await screen.findByText(/Advanced/i)).toBeInTheDocument();
   });
 
   it("fires setStatus when a status is selected", () => {

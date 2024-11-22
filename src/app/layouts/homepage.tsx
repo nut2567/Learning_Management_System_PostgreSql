@@ -19,7 +19,7 @@ export default function Home({
   const [product, setProduct] = useState<Courses[]>(initialProducts.courses); // ใช้ useState เพื่อจัดเก็บข้อมูล user
   const [user, setUser] = useState<User[]>(initialinstructor);
   const [isLoading, setIsLoading] = useState(false); // Tracks loading state
-  const [error, setError] = useState(""); // Tracks errors if they occur
+  const [error, setError] = useState(initialProducts.error); // Tracks errors if they occur
   const [Instructor, setInstructor] = useState("");
   const [Status, setStatus] = useState("");
   const [Level, setLevel] = useState("");

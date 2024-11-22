@@ -155,10 +155,15 @@ describe("GetProduct", () => {
   });
 
   it("should return empty data when API response is invalid", async () => {
-    mockAxios.onGet("/api/getcourse").reply(200, { data: null });
+    mockAxiosGet.mockResolvedValueOnce({
+      data: null,
+    });
 
     const result = await GetProduct();
-    expect(result).toEqual({ product: [], total: 0 });
+    expect(result).toEqual({
+      product: [],
+      total: 0,
+    });
   });
 
   it("should handle API errors gracefully", async () => {
@@ -174,11 +179,15 @@ describe("GetProduct", () => {
     const result = await GetProduct();
 
     // Assert the return value
-    expect(result).toEqual({ product: [], total: 0 });
+    expect(result).toEqual({
+      product: [],
+      total: 0,
+      error: "Failed to load product data",
+    });
 
     // Assert console.error เรียกถูกต้อง
     expect(consoleErrorSpy).toHaveBeenCalledWith(
-      "Failed to fetch products:",
+      "Failed to load product data",
       expect.any(Error) // ตรวจสอบว่า Error object ถูกส่งเป็น argument
     );
 

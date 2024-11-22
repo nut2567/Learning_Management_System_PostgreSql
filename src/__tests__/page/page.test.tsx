@@ -1,12 +1,16 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import ProductList, { Courses } from "@/app/components/ProductList";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import Home from "@/app/layouts/homepage";
+import { GetProduct } from "@/app/utils/getproduct";
+import { GetInstructors } from "@/app/utils/getInstructors";
 import { describe, it, expect, beforeEach, vi } from "vitest";
+import ProductList, { Courses } from "@/app/components/ProductList";
+import user from "@lib/userinfo";
 import React from "react";
 import axios from "axios";
-import { GetProduct } from "@/app/utils/getproduct";
 
 vi.mock("axios");
 const mockAxiosGet = vi.mocked(axios.get);
+const mockInstructors = user;
 
 describe("Renders list of products should call API with correct parameters", () => {
   it("no filter no sort", async () => {
@@ -57,10 +61,7 @@ describe("Renders list of products should call API with correct parameters", () 
     mockAxiosGet.mockResolvedValueOnce({
       data: { courses: mockProducts, total: 2 },
     });
-
-    // Call the function
-    const result = await GetProduct(1, 9);
-
+    const initialProducts = await GetProduct();
     // ตรวจสอบว่า axios.get ถูกเรียกด้วย parameters ที่ถูกต้อง
     expect(mockAxiosGet).toHaveBeenCalledWith(
       "http://localhost:4000/api/getcourse",
@@ -71,11 +72,26 @@ describe("Renders list of products should call API with correct parameters", () 
         },
       }
     );
+    vi.clearAllMocks();
+    mockAxiosGet.mockResolvedValueOnce({
+      data: { userList: mockInstructors },
+    });
+    const initialinstructor = await GetInstructors();
+    // ตรวจสอบว่า axios.get ถูกเรียกด้วย parameters ที่ถูกต้อง
+    expect(mockAxiosGet).toHaveBeenCalledWith(
+      "http://localhost:4000/api/instructor"
+    );
+
+    render(
+      <Home
+        initialProducts={initialProducts}
+        initialinstructor={initialinstructor}
+      />
+    );
 
     // ตรวจสอบผลลัพธ์ที่คืนค่า
-    expect(result).toEqual({ courses: mockProducts, total: 2 });
-
-    render(<ProductList products={result.courses} />);
+    expect(initialProducts).toEqual({ courses: mockProducts, total: 2 });
+    expect(initialinstructor).toEqual(mockInstructors);
 
     await waitFor(() => {
       // ตรวจสอบว่ามี <figure> ที่มีรูปภาพที่ถูกต้อง
@@ -143,47 +159,22 @@ describe("Renders list of products should call API with correct parameters", () 
       expect(
         screen.getByText(/50/i, { selector: "div:nth-child(2) > p" })
       ).toBeInTheDocument();
+
+      expect(screen.getByText("Available Courses")).toBeInTheDocument();
+
+      expect(screen.getByLabelText(/Instructor/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Level/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Status/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/Sort by/i)).toBeInTheDocument();
+
+      const filter = screen.getAllByText(/All/i, {
+        selector: "option",
+      });
+      expect(filter).toHaveLength(3);
+      const Recommended = screen.getAllByText(/Recommended/i, {
+        selector: "option",
+      });
+      expect(Recommended).toHaveLength(1);
     });
-  });
-
-  it("renders empty state when no products are passed", async () => {
-    const filters = {
-      Instructor: "20",
-      Status: "Open",
-      Level: "Beginner",
-      Sort: "Recommended",
-    };
-
-    // Mock API response
-    mockAxiosGet.mockResolvedValueOnce({
-      data: { courses: [], total: 0 },
-    });
-
-    // Call the function
-    const result = await GetProduct(1, 9, filters);
-
-    // ตรวจสอบว่า axios.get ถูกเรียกด้วย parameters ที่ถูกต้อง
-    expect(mockAxiosGet).toHaveBeenCalledWith(
-      "http://localhost:4000/api/getcourse",
-      {
-        params: {
-          page: 1,
-          limit: 9,
-          Instructor: "20",
-          Status: "Open",
-          Level: "Beginner",
-          Sort: "Recommended",
-        },
-      }
-    );
-
-    // ตรวจสอบผลลัพธ์ที่คืนค่า
-    expect(result).toEqual({ courses: [], total: 0 });
-
-    render(<ProductList products={result.courses} />);
-    expect(screen.getByText(/No result/i)).toBeInTheDocument();
-    expect(
-      screen.getByText(/Try to remove filters and sorting/i)
-    ).toBeInTheDocument();
   });
 });

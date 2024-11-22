@@ -106,12 +106,27 @@ describe("Renders list of products should call API with correct parameters Filte
         selector: "div > div > div:nth-child(1) > button:nth-child(1)",
       });
       expect(lavel).toHaveLength(2);
+      expect(
+        screen.queryByText(/Advanced/i, {
+          selector: "div > div > div:nth-child(1) > button:nth-child(1)",
+        })
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByText(/Beginner/i, {
+          selector: "div > div > div:nth-child(1) > button:nth-child(1)",
+        })
+      ).not.toBeInTheDocument();
 
       // ตรวจสอบสถานะ
       const matches = screen.getAllByText(/Open/i, {
         selector: "div > div > div > button:nth-child(2)",
       });
       expect(matches).toHaveLength(2);
+      expect(
+        screen.queryByText(/Closed/i, {
+          selector: "div > div > div > button:nth-child(2)",
+        })
+      ).not.toBeInTheDocument();
 
       // ตรวจสอบว่าชื่อคอร์สทั้งหมดถูกเรนเดอร์
       expect(
@@ -245,11 +260,27 @@ describe("Renders list of products should call API with correct parameters Filte
       });
       expect(lavel).toHaveLength(2);
 
+      expect(
+        screen.queryByText(/Advanced/i, {
+          selector: "div > div > div:nth-child(1) > button:nth-child(1)",
+        })
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByText(/Intermediate/i, {
+          selector: "div > div > div:nth-child(1) > button:nth-child(1)",
+        })
+      ).not.toBeInTheDocument();
+
       // ตรวจสอบสถานะ
       const matches = screen.getAllByText(/Closed/i, {
         selector: "div > div > div > button:nth-child(2)",
       });
       expect(matches).toHaveLength(2);
+      expect(
+        screen.queryByText(/Open/i, {
+          selector: "div > div > div > button:nth-child(2)",
+        })
+      ).not.toBeInTheDocument();
 
       // ตรวจสอบว่าชื่อคอร์สทั้งหมดถูกเรนเดอร์
       expect(
