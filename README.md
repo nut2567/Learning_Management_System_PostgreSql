@@ -101,7 +101,7 @@ npm test
 เช็คการทำงานของ /api/getcourse ว่าสามารถส่งค่า course มาแล้วเรียกใช้งาน ค่า course ได้
 และทำงานร่วมกับ components ProductList ว่าสามารถวาดการ์ดของ course ได้และมีองประกอบของกล่องการ์ดครบทุกส่วน
 เมื่อส่งตัวกรองแล้ว components ProductList ได้ค่าตามที่กรอง
-เมื่อจัดเรียงแล้ว components ProductList ได้ค่าเรียงตามที่เลือก
+เมื่อจัดเรียงแล้ว components ProductList ได้ค่าเรียงตามที่เลือก ทำงานรวมกันในหน้า homepage หน้าหลักที่เรียกใช้งาน
 
 (src/**tests**/page/pageFilter.test.tsx)
 

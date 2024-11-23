@@ -13,6 +13,10 @@ const mockAxiosGet = vi.mocked(axios.get);
 const mockInstructors = user;
 
 describe("Renders list of products should call API with correct parameters", () => {
+  beforeEach(() => {
+    vi.clearAllMocks(); // รีเซ็ต mock ก่อนการทดสอบ
+  });
+
   it("no filter no sort", async () => {
     const mockProducts: Courses[] = [
       {
@@ -299,6 +303,19 @@ describe("Renders list of products should call API with correct parameters", () 
 
     const statusSelect = screen.getByLabelText(/Status/i);
     expect(statusSelect).toBeInTheDocument();
+
+    expect(
+      screen.getByText(/Titan/i, { selector: "#select-1 option" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Advanced/i, { selector: "#select-2 option" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Open/i, { selector: "#select-3 option" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/A-Z/i, { selector: "#select-sort option" })
+    ).toBeInTheDocument();
   });
 
   it("should update UI when filters are changed", async () => {
@@ -344,6 +361,7 @@ describe("Renders list of products should call API with correct parameters", () 
         },
       },
     ];
+
     // Mock API response
     mockAxiosGet.mockResolvedValueOnce({
       data: { courses: mockProducts, total: 2 },
@@ -383,42 +401,34 @@ describe("Renders list of products should call API with correct parameters", () 
     expect(
       screen.getByText(/Titan/i, { selector: "#select-1 option" })
     ).toBeInTheDocument();
-    // ตรวจสอบ UI
     expect(
       screen.getByText(/Advanced/i, { selector: "#select-2 option" })
     ).toBeInTheDocument();
     expect(
       screen.getByText(/Open/i, { selector: "#select-3 option" })
     ).toBeInTheDocument();
-    // expect(
-    //   screen.getByText(/A-Z/i, { selector: "#select-4 option" })
-    // ).toBeInTheDocument();
+    expect(
+      screen.getByText(/A-Z/i, { selector: "#select-sort option" })
+    ).toBeInTheDocument();
 
+    vi.clearAllMocks(); // รีเซ็ต 2 แรกเพื่อนับใหม่
+    // เปลี่ยนค่า Filter และตรวจสอบว่า UI ตอบสนอง
     // Mock การเปลี่ยนค่าใน Select ของ Sort
-    // fireEvent.change(sortSelect, { target: { value: "A-Z" } });
+    fireEvent.change(sortSelect, { target: { value: "Z-A" } });
+    expect(screen.getByDisplayValue("Course title (Z-A)")).toBeInTheDocument();
 
     // Mock การเปลี่ยนค่าใน Select ของ Level
-    fireEvent.change(levelSelect, { target: { value: "Advanced" } });
+    fireEvent.change(levelSelect, { target: { value: "Intermediate" } });
+    expect(screen.getByDisplayValue("Intermediate")).toBeInTheDocument();
 
     // Mock การเปลี่ยนค่าใน Select ของ Status
     fireEvent.change(statusSelect, { target: { value: "Open" } });
+    expect(screen.getByDisplayValue("Open")).toBeInTheDocument();
 
-    expect(instructorSelect).toBeInTheDocument();
-
-    // เปลี่ยนค่า Filter และตรวจสอบว่า UI ตอบสนอง
     fireEvent.change(instructorSelect, { target: { value: "bukky" } });
     expect(screen.getByDisplayValue("bukky")).toBeInTheDocument();
 
-    // fireEvent.change(sortSelect, { target: { value: "A-Z" } });
-    // expect(screen.getByDisplayValue("A-Z")).toBeInTheDocument();
-
-    fireEvent.change(levelSelect, { target: { value: "Advanced" } });
-    expect(screen.getByDisplayValue("Advanced")).toBeInTheDocument();
-
-    fireEvent.change(statusSelect, { target: { value: "Closed" } });
-    expect(screen.getByDisplayValue("Closed")).toBeInTheDocument();
-
     // ตรวจสอบว่าฟังก์ชัน fetchProduct ถูกเรียกเมื่อเปลี่ยน Filter
-    // expect(mockAxiosGet).toHaveBeenCalledTimes(3); // หรือจำนวนครั้งที่คาดว่าจะเรียก
+    expect(mockAxiosGet).toHaveBeenCalledTimes(4); // หรือจำนวนครั้งที่คาดว่าจะเรียก
   });
 });
