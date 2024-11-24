@@ -4,7 +4,6 @@ import { GetProduct } from "@/app/utils/getproduct";
 import { GetInstructors } from "@/app/utils/getInstructors";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import ProductList, { Courses } from "@/app/components/ProductList";
-import user from "@lib/userinfo";
 import React from "react";
 import axios from "axios";
 
@@ -471,51 +470,56 @@ describe("Renders list of products should call API with correct parameters", () 
     expect(mockAxiosGet).toHaveBeenCalledTimes(2); // หรือจำนวนครั้งที่คาดว่าจะเรียก
     vi.clearAllMocks(); // รีเซ็ต 2 แรกเพื่อนับใหม่
     // Mock response for new filter
-    mockAxiosGet.mockResolvedValueOnce({
-      data: {
-        courses: [
-          {
-            id: 16,
-            courseTitle: "Front-End Development4",
-            courseDuration: 24,
-            level: "Beginner",
-            enrollmentCount: 58205,
-            createdAt: "2024-11-17T22:09:12.716Z",
-            status: "Open",
-            image: "/16_4.png",
-            userId: 2,
-            user: {
-              Instructor_Name: "bukky",
-              email: "bukky@home.com",
-              createdAt: "2024-11-17T20:47:15.262Z",
-              age: 3.5,
-              image: "/bukky.jpg",
-              phone: "098-9895888",
+    const mock = () => {
+      return mockAxiosGet.mockResolvedValueOnce({
+        data: {
+          courses: [
+            {
+              id: 16,
+              courseTitle: "Front-End Development4",
+              courseDuration: 24,
+              level: "Beginner",
+              enrollmentCount: 58205,
+              createdAt: "2024-11-17T22:09:12.716Z",
+              status: "Open",
+              image: "/16_4.png",
+              userId: 2,
+              user: {
+                Instructor_Name: "bukky",
+                email: "bukky@home.com",
+                createdAt: "2024-11-17T20:47:15.262Z",
+                age: 3.5,
+                image: "/bukky.jpg",
+                phone: "098-9895888",
+              },
             },
-          },
-          {
-            id: 17,
-            courseTitle: "Front-End Development5",
-            courseDuration: 24,
-            level: "Beginner",
-            enrollmentCount: 58205,
-            createdAt: "2024-11-17T22:09:12.721Z",
-            status: "Open",
-            image: "/16_4.png",
-            userId: 2,
-            user: {
-              Instructor_Name: "bukky",
-              email: "bukky@home.com",
-              createdAt: "2024-11-17T20:47:15.262Z",
-              age: 3.5,
-              image: "/bukky.jpg",
-              phone: "098-9895888",
+            {
+              id: 17,
+              courseTitle: "Front-End Development5",
+              courseDuration: 24,
+              level: "Beginner",
+              enrollmentCount: 58205,
+              createdAt: "2024-11-17T22:09:12.721Z",
+              status: "Open",
+              image: "/16_4.png",
+              userId: 2,
+              user: {
+                Instructor_Name: "bukky",
+                email: "bukky@home.com",
+                createdAt: "2024-11-17T20:47:15.262Z",
+                age: 3.5,
+                image: "/bukky.jpg",
+                phone: "098-9895888",
+              },
             },
-          },
-        ],
-        total: 2,
-      },
-    });
+          ],
+          total: 2,
+        },
+      });
+    };
+
+    mock();
+
     // เปลี่ยนค่า Filter และตรวจสอบว่า UI ตอบสนอง
     // Mock การเปลี่ยนค่าใน Select ของ Sort
     fireEvent.change(sortSelect, { target: { value: "Z-A" } });
@@ -534,51 +538,8 @@ describe("Renders list of products should call API with correct parameters", () 
         })
       ).toBeInTheDocument();
     });
-    mockAxiosGet.mockResolvedValueOnce({
-      data: {
-        courses: [
-          {
-            id: 16,
-            courseTitle: "Front-End Development4",
-            courseDuration: 24,
-            level: "Beginner",
-            enrollmentCount: 58205,
-            createdAt: "2024-11-17T22:09:12.716Z",
-            status: "Open",
-            image: "/16_4.png",
-            userId: 2,
-            user: {
-              Instructor_Name: "bukky",
-              email: "bukky@home.com",
-              createdAt: "2024-11-17T20:47:15.262Z",
-              age: 3.5,
-              image: "/bukky.jpg",
-              phone: "098-9895888",
-            },
-          },
-          {
-            id: 17,
-            courseTitle: "Front-End Development5",
-            courseDuration: 24,
-            level: "Beginner",
-            enrollmentCount: 58205,
-            createdAt: "2024-11-17T22:09:12.721Z",
-            status: "Open",
-            image: "/16_4.png",
-            userId: 2,
-            user: {
-              Instructor_Name: "bukky",
-              email: "bukky@home.com",
-              createdAt: "2024-11-17T20:47:15.262Z",
-              age: 3.5,
-              image: "/bukky.jpg",
-              phone: "098-9895888",
-            },
-          },
-        ],
-        total: 2,
-      },
-    });
+
+    mock();
     // Mock การเปลี่ยนค่าใน Select ของ Level
     fireEvent.change(levelSelect, { target: { value: "Beginner" } });
     expect(screen.getByDisplayValue("Beginner")).toBeInTheDocument();
